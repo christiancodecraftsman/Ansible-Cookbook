@@ -1,0 +1,14 @@
+- name: Install eza (better than ls)
+  ansible.builtin.dnf5:
+    name: eza
+    state: present
+
+- name: Ensure Zsh is installed
+  ansible.builtin.dnf5:
+    name: zsh
+    state: present
+
+- name: Set Zsh as the default shell for the current user
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: chsh -s $(which zsh)

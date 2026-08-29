@@ -1,0 +1,31 @@
+- name: Ensure stow is installed 
+  ansible.builtin.dnf5:
+    name: stow
+    state: present
+
+- name: Ensure target configuration directories exist
+  become_user: "{{ target_user }}"
+  ansible.builtin.file:
+    path: "/home/{{ target_user }}/.config"
+    state: directory
+    mode: '0755'
+
+- name: Clone dotfiles repository
+  become_user: "{{ target_user }}"
+  ansible.builtin.git:
+    repo: "{{ dotfiles_repo }}"
+    dest: "{{ dotfiles_dir }}"
+    update: yes
+
+- name: Symlink dotfiles using GNU Stow
+  become_user: "{{ target_user }}"
+  ansible.builtin.shell: stow -R .
+  args:
+    chdir: "{{ dotfiles_dir }}"
+
+- name: Source ~/.zshrc so it's reloaded # otherwise it won't reload until a new terminal is opened
+  become_user: "{{ target_user }}"
+  ansible.builtin.shell: |
+    source ~/.zshrc
+  args:
+    executable: /bin/zsh#

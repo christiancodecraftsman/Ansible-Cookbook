@@ -1,0 +1,29 @@
+- name: Check if rustup is installed
+  ansible.builtin.command: which rustup
+  register: rustup_check
+  changed_when: false
+  failed_when: false
+  become: false
+
+- name: Install rustup
+  # rust-analyzer for rustacenvim & rust-src so rust-analyzer can navigate the source code of the std lib
+  ansible.builtin.shell: |
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  when: rustup_check.rc != 0
+  become: false
+
+- name: Install nightly Rust toolchain and components w/ rustup
+  become_user: "{{ target_user }}"
+  ansible.builtin.shell: |
+    source $HOME/.cargo/env
+    rustup toolchain install nightly
+    rustup component add rust-analyzer rust-src rustfmt clippy --toolchain nightly
+
+- name: Configure Cargo to use lld linker (speed up Rust compilation times)
+  become_user: "{{ target_user }}"
+  ansible.builtin.copy:
+    dest: "/home/{{ target_user }}/.cargo/config.toml"
+    content: |
+      [target.x86_64-unknown-linux-gnu]
+      linker = "clang"
+      rustflags = ["-C", "link-arg=-fuse-ld=lld"]

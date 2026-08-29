@@ -1,0 +1,41 @@
+---
+- name: Update Workstation
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: DNF Upgrade (System & Cache Update)
+      ansible.builtin.dnf5:
+        name: "*"
+        state: latest
+
+- name: Setup Workstation Environment
+  hosts: localhost
+  connection: local
+  become: true
+  vars:
+    target_user: "cjgonzal"
+    dotfiles_repo: "https://github.com/christiancodecraftsman/dotfiles.git"
+    dotfiles_dir: "/home/{{ target_user }}/.dotfiles"
+  tasks:
+    - name: Install developer tools
+      ansible.builtin.dnf5:
+        name:
+          - gcc # required for treesitter and 
+          - git
+          - fzf
+          - ripgrep
+          - tmux
+          - btop
+          - fastfetch
+          - jq # json processor that can be piped into
+          - neovim
+          - lua
+          - luarocks
+        state: present
+    - import_tasks: tasks/hyprland.yml
+    - import_tasks: tasks/rust.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/docker.yml
+    - import_tasks: tasks/stow.yml
+    - import_tasks: tasks/fonts.yml
