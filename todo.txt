@@ -1,2 +1,1 @@
-fix act not moving where it needs to go?
-set zsh as the default terminal?
+set hyprland as default...

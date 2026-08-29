@@ -32,5 +32,7 @@
   become: yes
   ansible.builtin.shell: |
     curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | bash
+    sudo mv bin/act /usr/local/bin/act
+    sudo rm -r bin
   args:
     creates: /usr/local/bin/act

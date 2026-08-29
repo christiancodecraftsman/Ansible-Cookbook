@@ -27,12 +27,3 @@
       - grim
       - slurp
     state: present
-
-- name: Set Hyprland as default session for user
-  become: yes
-  ansible.builtin.copy:
-    dest: "/var/lib/AccountsService/users/{{ target_user }}"
-    content: |
-      [User]
-      Session=hyprland
-      SystemAccount=false
