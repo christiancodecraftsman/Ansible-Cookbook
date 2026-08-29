@@ -15,7 +15,7 @@
   become: true
   vars:
     target_user: "cjgonzal"
-    dotfiles_repo: "https://github.com/christiancodecraftsman/Dotfiles.git"
+    dotfiles_repo: "https://github.com/christiancodecraftsman/dotfiles.git"
     dotfiles_dir: "/home/{{ target_user }}/.dotfiles"
   tasks:
     - name: Install developer tools
