@@ -34,8 +34,8 @@
           - luarocks
         state: present
     - import_tasks: tasks/hyprland.yml
-    - import_tasks: tasks/rust.yml
     - import_tasks: tasks/zsh.yml
-    - import_tasks: tasks/docker.yml
     - import_tasks: tasks/stow.yml
     - import_tasks: tasks/fonts.yml
+    - import_tasks: tasks/rust.yml
+    - import_tasks: tasks/docker.yml

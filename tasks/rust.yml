@@ -7,15 +7,15 @@
 
 - name: Install rustup
   # rust-analyzer for rustacenvim & rust-src so rust-analyzer can navigate the source code of the std lib
+  become_user: "{{ target_user }}"
   ansible.builtin.shell: |
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  when: rustup_check.rc != 0
   become: false
 
 - name: Install nightly Rust toolchain and components w/ rustup
   become_user: "{{ target_user }}"
   ansible.builtin.shell: |
-    source $HOME/.cargo/env
+    . "$HOME/.cargo/env"
     rustup toolchain install nightly
     rustup component add rust-analyzer rust-src rustfmt clippy --toolchain nightly
 
