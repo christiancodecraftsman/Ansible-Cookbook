@@ -1,0 +1,18 @@
+
+
+- name: Enable niri COPR repository
+  become: yes
+  ansible.builtin.command: dnf5 copr enable -y avengemedia/dms
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:avengemedia:dms.repo
+
+- name: Install niri & dms
+  ansible.builtin.dnf5:
+    name:
+      - niri
+      - dms
+    state: present
+
+- name: Link dms to autostart w/ niri
+  ansible.builtin.command: systemctl --user add-wants niri.service dms
+  become: false

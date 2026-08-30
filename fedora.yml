@@ -15,7 +15,7 @@
   become: true
   vars:
     target_user: "cjgonzal"
-    dotfiles_repo: "https://github.com/christiancodecraftsman/dotfiles.git"
+    dotfiles_repo: "git@github.com:christiancodecraftsman/dotfiles.git"
     dotfiles_dir: "/home/{{ target_user }}/.dotfiles"
   tasks:
     - name: Install developer tools
@@ -33,7 +33,7 @@
           - lua
           - luarocks
         state: present
-    - import_tasks: tasks/hyprland.yml
+    - import_tasks: tasks/niri.yml
     - import_tasks: tasks/zsh.yml
     - import_tasks: tasks/stow.yml
     - import_tasks: tasks/fonts.yml
