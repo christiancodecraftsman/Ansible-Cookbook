@@ -16,8 +16,11 @@
   become_user: "{{ target_user }}"
   ansible.builtin.shell: |
     . "$HOME/.cargo/env"
-    rustup toolchain install nightly
-    rustup component add rust-analyzer rust-src rustfmt clippy --toolchain nightly
+    rustup toolchain install stable
+    rustup component add rust-analyzer
+    rustup component add rust-src
+    rustup component add rustfmt
+    rustup component add clippy
 
 - name: Configure Cargo to use lld linker (speed up Rust compilation times)
   become_user: "{{ target_user }}"

@@ -30,6 +30,7 @@
           - fastfetch
           - jq # json processor that can be piped into
           - neovim
+          - tree-sitter-cli
           - lua
           - luarocks
         state: present
