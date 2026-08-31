@@ -22,6 +22,12 @@
     rustup component add rustfmt
     rustup component add clippy
 
+- name: Ensure clang & lld are installed
+  ansible.builtin.dnf5:
+    name:
+      - clang
+      - lld
+
 - name: Configure Cargo to use lld linker (speed up Rust compilation times)
   become_user: "{{ target_user }}"
   ansible.builtin.copy:
